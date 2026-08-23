@@ -3,8 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "splitkit": ["../src/index"],
-      "splitkit/*": ["../src/*"]
+      "expo-splitkit": ["../src/index"],
+      "expo-splitkit/*": ["../src/*"]
     }
   }
 }

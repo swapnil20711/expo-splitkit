@@ -19,8 +19,10 @@ config.resolver.nodeModulesPaths = [
   path.resolve(__dirname, '../node_modules'),
 ];
 
+// Must match the published package name so the example's imports are the same
+// ones a consumer would write.
 config.resolver.extraNodeModules = {
-  'splitkit': '..',
+  'expo-splitkit': '..',
 };
 
 config.watchFolders = [path.resolve(__dirname, '..')];

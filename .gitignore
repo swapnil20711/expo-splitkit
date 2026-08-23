@@ -55,3 +55,7 @@ yarn-error.log
 
 # Expo
 .expo/*
+
+# demo recordings — the source video is large; only the exported gif is committed
+assets/*.mov
+assets/*.mp4

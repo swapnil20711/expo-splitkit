@@ -13,6 +13,28 @@ Splitkit buckets users locally using a MurmurHash3 hash of `userId:experimentKey
 
 ---
 
+## Demo
+
+<!--
+  This GIF must use an absolute raw.githubusercontent.com URL, not a relative
+  path: npm's registry page ignores relative image paths and strips <video>
+  entirely, so a relative link renders as a broken image on npmjs.com.
+-->
+
+![Splitkit demo — switching user ids and watching the bucket assignment change deterministically](https://raw.githubusercontent.com/swapnil20711/splitkit/main/assets/demo.gif)
+
+Change the user id, watch the bucket score move, and see the variant flip — then re-run it ten times and watch nothing change. Everything in the clip is computed on-device with the network off.
+
+<!--
+  GitHub renders an inline player for a bare video URL on its own line, but only
+  for files uploaded to GitHub itself. To get that URL: drag demo.mp4 into any
+  issue comment (no need to submit it), then paste the resulting
+  https://github.com/user-attachments/assets/... link below. Relative paths and
+  <video> tags do not work in README.md.
+-->
+
+---
+
 ## Installation
 
 ```bash
@@ -235,7 +257,18 @@ npm install
 npx expo run:ios     # or: npx expo run:android
 ```
 
-It renders the resolved device ID, the assigned variant, and the variant payload for an `onboarding_v2` experiment.
+It's a six-panel walkthrough of a `checkout_cta` experiment, built to make determinism visible rather than just assert it:
+
+| Panel | Shows |
+|---|---|
+| **Who are we bucketing?** | Edit the user id or tap a preset — the assignment is a pure function of this string |
+| **Where did that land?** | The `[0, 1)` bucket score on a weighted meter, with adjustable 50/50, 70/30, 90/10 splits |
+| **What the user sees** | The real CTA rendered from the variant payload, resolved on the first frame |
+| **Run it again** | Re-evaluates ×10 per press and counts distinct results — always 1 |
+| **Is the split even?** | Hashes 10,000 synthetic ids on-device and charts the actual distribution and drift |
+| **Exposure events** | Live `onExposure` feed, demonstrating per-user/experiment/variant deduplication |
+
+Turn on airplane mode while it runs — nothing changes, because nothing was ever fetched.
 
 ---
 
