@@ -13,3 +13,7 @@ __tests__
 /android/src/test/
 /android/build/
 /example/
+
+# IDE caches live in nested .idea dirs, which the top-level /.*/ rule misses.
+.idea/
+/android/local.properties

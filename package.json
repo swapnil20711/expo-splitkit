@@ -4,6 +4,14 @@
   "description": "Deterministic A/B testing and feature flagging module for Expo & React Native",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "files": [
+    "build",
+    "src",
+    "ios",
+    "android/src/main",
+    "android/build.gradle",
+    "expo-module.config.json"
+  ],
   "scripts": {
     "build": "node internal/module_scripts/build.js",
     "clean": "node internal/module_scripts/clean.js",
