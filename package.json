@@ -10,7 +10,8 @@
     "ios",
     "android/src/main",
     "android/build.gradle",
-    "expo-module.config.json"
+    "expo-module.config.json",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "node internal/module_scripts/build.js",
