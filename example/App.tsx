@@ -10,7 +10,7 @@ import {
 import {
   getBucketScore,
   getDeviceId,
-  SplitKitTestingProvider,
+  SplitKitProvider,
   type Experiment,
 } from 'expo-splitkit';
 
@@ -70,7 +70,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.safe}>
       <StatusBar barStyle="light-content" />
-      <SplitKitTestingProvider
+      <SplitKitProvider
         user={user}
         experiments={experiments}
         onExposure={onExposure}>
@@ -113,7 +113,7 @@ export default function App() {
 
           <Text style={styles.footer}>expo-splitkit · MIT · 0 dependencies</Text>
         </ScrollView>
-      </SplitKitTestingProvider>
+      </SplitKitProvider>
     </SafeAreaView>
   );
 }

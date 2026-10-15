@@ -1,4 +1,11 @@
-# splitkit
+# expo-splitkit
+
+[![npm version](https://img.shields.io/npm/v/expo-splitkit.svg)](https://www.npmjs.com/package/expo-splitkit)
+[![npm downloads](https://img.shields.io/npm/dm/expo-splitkit.svg)](https://www.npmjs.com/package/expo-splitkit)
+[![zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](./package.json)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
+**[Docs](https://swapnil20711.github.io/expo-splitkit/)** · **[Live demo](https://swapnil20711.github.io/expo-splitkit/demo)** · **[npm](https://www.npmjs.com/package/expo-splitkit)**
 
 Deterministic A/B testing and feature flagging for **Expo** & **React Native** — no backend, no network calls, no SDK keys.
 
@@ -13,6 +20,24 @@ Splitkit buckets users locally using a MurmurHash3 hash of `userId:experimentKey
 
 ---
 
+## Why not GrowthBook, Statsig or LaunchDarkly?
+
+They're great platforms, but they're a lot of machinery if all you want is to show half your users a different onboarding screen.
+
+| | **SplitKit** | GrowthBook | Statsig | LaunchDarkly |
+| --- | :---: | :---: | :---: | :---: |
+| Account or SDK key required | **No** | Yes | Yes | Yes |
+| Network call to get assignments | **Never** | Fetches feature config | Yes, on initialize | Yes, on initialize |
+| Variant ready on first render, offline, first launch | **Yes** | After config is cached | After values are cached | After flags are cached |
+| Runtime dependencies | **0** | SDK | SDK | SDK |
+| Cost | **Free, MIT** | Open source, free self-host or paid cloud | Free tier, then paid | Free dev tier, then paid |
+| Change a rollout without an app release | No | Yes | Yes | Yes |
+| Results dashboard and stats engine | No, bring your own analytics | Yes | Yes | Yes |
+
+**Pick SplitKit** when you want A/B tests and rollouts with no vendor, no network dependency and no flicker, and you already have analytics. **Pick a hosted platform** when you need to change rollouts from a dashboard without shipping a release, or want built-in stats. More detail in [Why SplitKit?](https://swapnil20711.github.io/expo-splitkit/guide/why-splitkit).
+
+---
+
 ## Demo
 
 <!--
@@ -21,7 +46,9 @@ Splitkit buckets users locally using a MurmurHash3 hash of `userId:experimentKey
   entirely, so a relative link renders as a broken image on npmjs.com.
 -->
 
-![Splitkit demo — switching user ids and watching the bucket assignment change deterministically](https://raw.githubusercontent.com/swapnil20711/splitkit/main/assets/demo.gif)
+![Splitkit demo — switching user ids and watching the bucket assignment change deterministically](https://raw.githubusercontent.com/swapnil20711/expo-splitkit/main/assets/demo.gif)
+
+**[Try it in your browser →](https://swapnil20711.github.io/expo-splitkit/demo)**
 
 Change the user id, watch the bucket score move, and see the variant flip — then re-run it ten times and watch nothing change. Everything in the clip is computed on-device with the network off.
 
@@ -58,7 +85,7 @@ Wrap your app in a provider, declare your experiments, and read the assigned var
 
 ```tsx
 // App.tsx
-import { SplitKitTestingProvider, getDeviceId } from 'expo-splitkit';
+import { SplitKitProvider, getDeviceId } from 'expo-splitkit';
 import OnboardingScreen from './OnboardingScreen';
 
 const EXPERIMENTS = {
@@ -74,14 +101,14 @@ const EXPERIMENTS = {
 
 export default function App() {
   return (
-    <SplitKitTestingProvider
+    <SplitKitProvider
       user={{ id: getDeviceId() }}
       experiments={EXPERIMENTS}
       onExposure={(event) => {
         analytics.track('experiment_exposure', event);
       }}>
       <OnboardingScreen />
-    </SplitKitTestingProvider>
+    </SplitKitProvider>
   );
 }
 ```
@@ -106,7 +133,7 @@ export default function OnboardingScreen() {
 
 ## API
 
-### `<SplitKitTestingProvider />`
+### `<SplitKitProvider />`
 
 | Prop | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -114,6 +141,8 @@ export default function OnboardingScreen() {
 | `experiments` | `Record<string, Experiment>` | yes | Experiment config, keyed by experiment key. |
 | `onExposure` | `ExposureCallback` | no | Fired the first time a user is exposed to a given experiment/variant pair. |
 | `children` | `ReactNode` | yes | |
+
+> Renamed from `SplitKitTestingProvider` in 0.3. The old name still works as a deprecated alias and will be removed in 1.0.
 
 ### `useExperiment<T>(experimentKey, fallbackVariant?)`
 
@@ -155,7 +184,7 @@ The hashing primitives are exported too. `getBucketScore` returns a stable float
 Strings are hashed as UTF-8 bytes, and the implementation matches the canonical MurmurHash3 (x86, 32-bit) reference. That means a backend in any language can recompute the exact same bucket for a user without calling the app.
 
 ```ts
-getBucketScore('user-123', 'onboarding_v2'); // => 0.7213…
+getBucketScore('user-123', 'onboarding_v2'); // => 0.7502…
 ```
 
 ---
@@ -235,7 +264,7 @@ Users who fail `targetingRules` — or any experiment with `enabled: false` — 
 `onExposure` fires once per unique `userId:experimentKey:variant` for the lifetime of the provider, so you can point it straight at an analytics sink without worrying about duplicate events on re-render.
 
 ```tsx
-<SplitKitTestingProvider
+<SplitKitProvider
   user={{ id: userId }}
   experiments={EXPERIMENTS}
   onExposure={({ experimentKey, variant, userId, timestamp }) => {
@@ -254,7 +283,7 @@ A runnable Expo app lives in [`example/`](./example):
 ```bash
 cd example
 npm install
-npx expo run:ios     # or: npx expo run:android
+npx expo run:ios     # or: npx expo run:android, or: npm run web
 ```
 
 It's a six-panel walkthrough of a `checkout_cta` experiment, built to make determinism visible rather than just assert it:
@@ -275,6 +304,8 @@ Turn on airplane mode while it runs — nothing changes, because nothing was eve
 ## Development
 
 ```bash
+cd docs && npm install && npm run dev   # docs site at localhost:5173
+
 npm run build     # compile src/ to build/
 npm run clean
 npm run lint
@@ -287,7 +318,7 @@ npm run open:android  # open the example Android project in Android Studio
 
 ## Contributing
 
-Issues and PRs welcome at [github.com/swapnil20711/splitkit](https://github.com/swapnil20711/splitkit).
+Issues and PRs welcome at [github.com/swapnil20711/expo-splitkit](https://github.com/swapnil20711/expo-splitkit).
 
 ## License
 

@@ -4,7 +4,7 @@ import { Experiment, ExposureCallback, UserContext } from './Splitkit.types';
 import SplitKitModule from './SplitkitModule';
 
 
-interface SplitKitTestingContextValue {
+interface SplitKitContextValue {
     user: UserContext;
     experiments: Record<string, Experiment>;
     logExposure: (experimentKey: string, variant: string) => void;
@@ -12,9 +12,9 @@ interface SplitKitTestingContextValue {
 
 }
 
-const SplitKitTestingContext = createContext<SplitKitTestingContextValue | null>(null);
+const SplitKitContext = createContext<SplitKitContextValue | null>(null);
 
-export interface SplitKitTestingProviderProps {
+export interface SplitKitProviderProps {
     user: UserContext;
     experiments: Record<string, Experiment>;
     onExposure?: ExposureCallback;
@@ -28,7 +28,7 @@ export function getDeviceId(): string {
     return SplitKitModule.getDeviceId();
 }
 
-export const SplitKitTestingProvider: React.FC<SplitKitTestingProviderProps> = ({
+export const SplitKitProvider: React.FC<SplitKitProviderProps> = ({
     user,
     experiments,
     onExposure,
@@ -65,11 +65,17 @@ export const SplitKitTestingProvider: React.FC<SplitKitTestingProviderProps> = (
     );
 
     return (
-        <SplitKitTestingContext.Provider value={value}>
+        <SplitKitContext.Provider value={value}>
             {children}
-        </SplitKitTestingContext.Provider>
+        </SplitKitContext.Provider>
     );
 };
+
+/** @deprecated Renamed to `SplitKitProvider`. This alias will be removed in 1.0. */
+export const SplitKitTestingProvider = SplitKitProvider;
+
+/** @deprecated Renamed to `SplitKitProviderProps`. This alias will be removed in 1.0. */
+export type SplitKitTestingProviderProps = SplitKitProviderProps;
 
 export function useExperiment<T = any>(
     experimentKey: string,
@@ -78,7 +84,7 @@ export function useExperiment<T = any>(
     // Every hook below runs unconditionally, including when there is no
     // provider above. Returning early on a missing context would change the
     // hook count between renders and break the Rules of Hooks.
-    const context = useContext(SplitKitTestingContext);
+    const context = useContext(SplitKitContext);
     const config = context?.experiments[experimentKey];
     const user = context?.user;
     const logExposure = context?.logExposure;

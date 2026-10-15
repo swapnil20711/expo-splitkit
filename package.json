@@ -34,13 +34,16 @@
     "experimentation",
     "controlled-experiments"
   ],
-  "repository": "https://github.com/swapnil20711/splitkit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swapnil20711/expo-splitkit.git"
+  },
   "bugs": {
-    "url": "https://github.com/swapnil20711/splitkit/issues"
+    "url": "https://github.com/swapnil20711/expo-splitkit/issues"
   },
   "author": "swapnil20711 <swapnil.bhojwani@gmail.com> (https://github.com/swapnil20711)",
   "license": "MIT",
-  "homepage": "https://github.com/swapnil20711/splitkit#readme",
+  "homepage": "https://swapnil20711.github.io/expo-splitkit/",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.26.0",
