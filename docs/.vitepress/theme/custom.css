@@ -1,0 +1,55 @@
+.star-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  margin-left: 16px;
+  padding: 0 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: border-color 0.2s, color 0.2s;
+}
+.star-button:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+.star-icon {
+  color: #e3b341;
+}
+.star-count {
+  padding-left: 8px;
+  border-left: 1px solid var(--vp-c-divider);
+  font-variant-numeric: tabular-nums;
+}
+/* Below 768px the nav collapses into a menu; the hero button and the end-of-page
+   callout cover mobile instead. */
+@media (max-width: 767px) {
+  .star-button {
+    display: none;
+  }
+}
+
+.star-callout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 48px;
+  padding: 16px 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+.star-callout a {
+  font-weight: 600;
+  color: var(--vp-c-brand-1);
+  white-space: nowrap;
+}

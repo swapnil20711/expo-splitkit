@@ -13,7 +13,7 @@ hero:
       text: Try the live demo
       link: /demo
     - theme: alt
-      text: GitHub
+      text: ⭐ Star on GitHub
       link: https://github.com/swapnil20711/expo-splitkit
 
 features:
