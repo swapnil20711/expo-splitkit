@@ -32,6 +32,7 @@ Synchronously returns a stable per-install device identifier.
 | iOS | `UIDevice.identifierForVendor`, falling back to a UUID in `UserDefaults` |
 | Android | `Settings.Secure.ANDROID_ID`, falling back to a UUID in `SharedPreferences` |
 | Web | UUID stored in `localStorage` (in memory for the session if storage is blocked) |
+| Expo Go / Snack | In-memory UUID; changes on every app reload (a dev-mode warning says so) |
 
 ## `evaluateExperiment<T>(experiment, user)`
 

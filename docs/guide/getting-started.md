@@ -6,12 +6,14 @@
 npx expo install expo-splitkit
 ```
 
-SplitKit is a native module, so Expo Go won't pick it up. Rebuild your native project:
+Works out of the box in **Expo Go** and **Snack**, so you can try it without a rebuild. For production, use a development build so device IDs persist across launches:
 
 ```bash
 npx expo prebuild
 npx expo run:ios     # or: npx expo run:android
 ```
+
+In Expo Go there's no native module, so `getDeviceId()` falls back to an in-memory ID that changes on every reload. Assignments are still deterministic for any `user.id` you pass in.
 
 Supported platforms: iOS, Android, and Web.
 

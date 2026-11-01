@@ -1,3 +1,4 @@
+import { isDevelopment } from './dev';
 import { getBucketScore } from './murmur3';
 import { Experiment, UserContext } from './Splitkit.types'
 
@@ -5,14 +6,6 @@ import { Experiment, UserContext } from './Splitkit.types'
 const WEIGHT_TOLERANCE = 1e-6;
 
 const warnedExperiments = new Set<string>();
-
-function isDevelopment(): boolean {
-    const globals = globalThis as any;
-    if (typeof globals.__DEV__ !== 'undefined') {
-        return !!globals.__DEV__;
-    }
-    return globals.process?.env?.NODE_ENV !== 'production';
-}
 
 /**
  * Warns once per experiment about weights that would silently misroute users.
