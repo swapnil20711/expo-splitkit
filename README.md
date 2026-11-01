@@ -1,5 +1,6 @@
 # expo-splitkit
 
+[![CI](https://github.com/swapnil20711/expo-splitkit/actions/workflows/ci.yml/badge.svg)](https://github.com/swapnil20711/expo-splitkit/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/expo-splitkit.svg)](https://www.npmjs.com/package/expo-splitkit)
 [![npm downloads](https://img.shields.io/npm/dm/expo-splitkit.svg)](https://www.npmjs.com/package/expo-splitkit)
 [![zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](./package.json)
