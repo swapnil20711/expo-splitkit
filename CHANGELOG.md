@@ -2,11 +2,15 @@
 
 All notable changes to `expo-splitkit` are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.4.0] - 2026-11-01
 
 ### Added
 
-- **Expo Go and Snack support.** When the native module isn't installed, SplitKit falls back to a JS device ID instead of crashing on import. The ID lives in memory, so it changes on every reload; pass your own `user.id` or use a development build for stable assignments. A dev-mode warning explains this once.
+- **Expo Go and Snack support.** You can now try SplitKit without a native rebuild. When the native module isn't installed, SplitKit falls back to a JS device ID instead of crashing on import. The ID lives in memory, so it changes on every reload; pass your own `user.id` or use a development build for stable assignments. A dev-mode warning explains this once.
+
+### Changed
+
+- Installation docs no longer require `expo prebuild` to get started. A development build is still recommended for production so device IDs persist across launches.
 
 ## [0.3.0] - 2026-10-15
 
@@ -83,6 +87,7 @@ All notable changes to `expo-splitkit` are documented here. The format follows [
 
 - First release as `expo-splitkit`: deterministic MurmurHash3 bucketing, `SplitKitTestingProvider`, `useExperiment`, `evaluateExperiment`, native `getDeviceId()` for iOS, Android and web, typed payloads, targeting rules and deduplicated exposure tracking.
 
+[0.4.0]: https://github.com/swapnil20711/expo-splitkit/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/swapnil20711/expo-splitkit/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/swapnil20711/expo-splitkit/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/swapnil20711/expo-splitkit/compare/v0.1.3...v0.2.0
