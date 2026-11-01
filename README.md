@@ -68,12 +68,14 @@ Change the user id, watch the bucket score move, and see the variant flip — th
 npx expo install expo-splitkit
 ```
 
-Then rebuild your native project (this is a native module, so Expo Go won't pick it up):
+Works out of the box in **Expo Go** and **Snack**, so you can try it without a rebuild. For production, use a development build so device IDs persist across launches:
 
 ```bash
 npx expo prebuild
 npx expo run:ios     # or: npx expo run:android
 ```
+
+In Expo Go there's no native module, so `getDeviceId()` falls back to an in-memory ID that changes on every reload. Assignments are still deterministic for any `user.id` you pass in.
 
 Supported platforms: iOS, Android, and Web.
 
@@ -165,6 +167,7 @@ Synchronously returns a stable per-install device identifier.
 | iOS | `UIDevice.identifierForVendor`, falling back to a UUID in `UserDefaults` |
 | Android | `Settings.Secure.ANDROID_ID`, falling back to a UUID in `SharedPreferences` |
 | Web | UUID stored in `localStorage` |
+| Expo Go / Snack | In-memory UUID; changes on every app reload (a dev-mode warning says so) |
 
 ### `evaluateExperiment<T>(experiment, user)`
 

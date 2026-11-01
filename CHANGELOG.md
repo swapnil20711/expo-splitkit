@@ -2,6 +2,12 @@
 
 All notable changes to `expo-splitkit` are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- **Expo Go and Snack support.** When the native module isn't installed, SplitKit falls back to a JS device ID instead of crashing on import. The ID lives in memory, so it changes on every reload; pass your own `user.id` or use a development build for stable assignments. A dev-mode warning explains this once.
+
 ## [0.3.0] - 2026-10-15
 
 ### Added
