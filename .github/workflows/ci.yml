@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  library:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npx tsc --noEmit -p .
+
+      - name: Test
+        run: npx jest --ci
+
+      - name: Build
+        run: npm run build
+
+      # Guards the `files` whitelist: tests must never ship, and the build must.
+      - name: Check package contents
+        run: |
+          npm pack --dry-run --json > pack.json
+          node -e '
+            const files = require("./pack.json")[0].files.map((f) => f.path);
+            const leaked = files.filter((f) => f.includes("__tests__"));
+            if (leaked.length) throw new Error("Tests in package: " + leaked.join(", "));
+            if (!files.includes("build/index.js")) throw new Error("build/index.js missing from package");
+            console.log(files.length + " files OK");
+          '
+
+  example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            example/package-lock.json
+
+      # The example resolves expo-splitkit from the repo root, so it needs the built library.
+      - name: Install and build library
+        run: |
+          npm ci --ignore-scripts
+          npm run build
+
+      - name: Install example dependencies
+        working-directory: example
+        run: npm ci
+
+      - name: Typecheck example
+        working-directory: example
+        run: npx tsc --noEmit
+
+      - name: Expo doctor
+        working-directory: example
+        run: npx expo-doctor@1.21.5
+
+      - name: Build web demo
+        working-directory: example
+        run: npx expo export --platform web --output-dir dist
