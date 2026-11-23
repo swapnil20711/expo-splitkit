@@ -2,6 +2,16 @@
 
 All notable changes to `expo-splitkit` are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- **`splitkit-core`**, a new zero-dependency package containing the bucketing engine (`evaluateExperiment`, `getBucketScore`, `murmur3_32` and the types). It runs in Node, Next.js, edge workers, Deno, Bun and browsers, and ships ESM and CommonJS. Use it to compute on your server the same variant the app shows. See [Use on your backend](https://swapnil20711.github.io/expo-splitkit/guide/backend).
+
+### Changed
+
+- `expo-splitkit` now depends on `splitkit-core` and re-exports it. The public API is unchanged, and existing imports keep working.
+
 ## [0.4.0] - 2026-11-01
 
 ### Added

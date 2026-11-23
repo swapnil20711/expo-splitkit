@@ -25,11 +25,17 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts
 
+      # The Expo package imports splitkit-core's built types, so build it first.
+      - name: Build splitkit-core
+        run: npm run build:core
+
       - name: Lint
         run: npm run lint
 
       - name: Typecheck
-        run: npx tsc --noEmit -p .
+        run: |
+          npx tsc --noEmit -p .
+          npx tsc --noEmit -p packages/core
 
       - name: Test
         run: npx jest --ci
@@ -46,6 +52,23 @@ jobs:
             const leaked = files.filter((f) => f.includes("__tests__"));
             if (leaked.length) throw new Error("Tests in package: " + leaked.join(", "));
             if (!files.includes("build/index.js")) throw new Error("build/index.js missing from package");
+            console.log(files.length + " files OK");
+          '
+
+      # Loads the built core through its exports map in both CJS and ESM.
+      - name: Test splitkit-core in Node
+        run: npm run test:dist
+
+      - name: Check splitkit-core package contents
+        working-directory: packages/core
+        run: |
+          npm pack --dry-run --json --ignore-scripts > pack.json
+          node -e '
+            const files = require("./pack.json")[0].files.map((f) => f.path);
+            const leaked = files.filter((f) => f.includes("__tests__") || f.startsWith("scripts/"));
+            if (leaked.length) throw new Error("Unexpected files in package: " + leaked.join(", "));
+            for (const f of ["dist/esm/index.js", "dist/cjs/index.js", "dist/esm/package.json", "dist/cjs/package.json"])
+              if (!files.includes(f)) throw new Error(f + " missing from package");
             console.log(files.length + " files OK");
           '
 

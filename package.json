@@ -15,13 +15,15 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "node internal/module_scripts/build.js",
+    "build:core": "npm run build -w splitkit-core",
+    "build": "npm run build:core && node internal/module_scripts/build.js",
     "clean": "node internal/module_scripts/clean.js",
     "lint": "eslint src/",
     "test": "node internal/module_scripts/test.js",
     "prepare": "node internal/module_scripts/prepare.js",
     "open:ios": "node internal/module_scripts/open-ios.js",
-    "open:android": "node internal/module_scripts/open-android.js"
+    "open:android": "node internal/module_scripts/open-android.js",
+    "test:dist": "npm run test:dist -w splitkit-core"
   },
   "keywords": [
     "expo",
@@ -46,7 +48,9 @@
   "author": "swapnil20711 <swapnil.bhojwani@gmail.com> (https://github.com/swapnil20711)",
   "license": "MIT",
   "homepage": "https://swapnil20711.github.io/expo-splitkit/",
-  "dependencies": {},
+  "dependencies": {
+    "splitkit-core": "^0.1.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@react-native/jest-preset": "0.88.1",
@@ -66,12 +70,20 @@
   "jest": {
     "preset": "jest-expo",
     "roots": [
-      "<rootDir>/src"
-    ]
+      "<rootDir>/src",
+      "<rootDir>/packages/core/src"
+    ],
+    "moduleNameMapper": {
+      "^splitkit-core$": "<rootDir>/packages/core/src/index.ts",
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
   },
   "peerDependencies": {
     "expo": "*",
     "react": "*",
     "react-native": "*"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
