@@ -3,7 +3,7 @@ name: Docs
 on:
   push:
     branches: [main]
-    paths: ['docs/**', 'example/**', 'src/**', '.github/workflows/docs.yml']
+    paths: ['docs/**', 'example/**', 'src/**', 'packages/**', '.github/workflows/docs.yml']
   workflow_dispatch:
 
 permissions:
@@ -28,8 +28,10 @@ jobs:
           node-version: 22
 
       # The example resolves expo-splitkit from the repo root, so root deps are needed too.
-      - name: Install library dependencies
-        run: npm ci --ignore-scripts
+      - name: Install and build library
+        run: |
+          npm ci --ignore-scripts
+          npm run build
 
       - name: Build web demo
         working-directory: example

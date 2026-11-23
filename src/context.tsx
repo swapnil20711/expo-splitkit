@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
-import { evaluateExperiment } from './engine';
-import { Experiment, ExposureCallback, UserContext } from './Splitkit.types';
+import { evaluateExperiment } from 'splitkit-core';
+import type { Experiment, ExposureCallback, UserContext } from 'splitkit-core';
 import SplitKitModule from './SplitkitModule';
 
 

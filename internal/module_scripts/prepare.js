@@ -10,6 +10,9 @@ function run(cmd, args = []) {
   if (result.status !== 0) process.exit(result.status ?? 1);
 }
 
+// Build splitkit-core first: the main package imports its types and build.
+run('npm', ['run', 'build', '-w', 'splitkit-core']);
+
 // Clean and build main
 fs.rmSync(path.join(process.cwd(), 'build'), { recursive: true, force: true });
 run('tsc');

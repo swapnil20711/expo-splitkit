@@ -1,0 +1,61 @@
+{
+  "name": "splitkit-core",
+  "version": "0.1.0",
+  "description": "Deterministic, offline A/B test bucketing and feature flags for any JavaScript runtime: Node, browsers, edge workers and React Native. Zero dependencies.",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src",
+    "!src/**/__tests__"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test:dist": "node scripts/smoke.mjs",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "ab-testing",
+    "a/b-testing",
+    "split-testing",
+    "feature-flags",
+    "feature-toggle",
+    "rollout",
+    "experimentation",
+    "bucketing",
+    "murmurhash",
+    "deterministic",
+    "offline",
+    "nodejs",
+    "nextjs",
+    "edge",
+    "react-native",
+    "zero-dependency"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swapnil20711/expo-splitkit.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/swapnil20711/expo-splitkit/issues"
+  },
+  "homepage": "https://swapnil20711.github.io/expo-splitkit/guide/backend",
+  "author": "swapnil20711 (https://github.com/swapnil20711)",
+  "license": "MIT"
+}

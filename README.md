@@ -2,7 +2,7 @@
 
 [![npm version](https://badgen.net/npm/v/expo-splitkit)](https://www.npmjs.com/package/expo-splitkit)
 [![npm downloads](https://badgen.net/npm/dm/expo-splitkit)](https://www.npmjs.com/package/expo-splitkit)
-[![zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](./package.json)
+[![zero third-party dependencies](https://img.shields.io/badge/third--party%20deps-0-brightgreen.svg)](./package.json)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 **[Docs](https://swapnil20711.github.io/expo-splitkit/)** · **[Live demo](https://swapnil20711.github.io/expo-splitkit/demo)** · **[npm](https://www.npmjs.com/package/expo-splitkit)**
@@ -13,7 +13,8 @@ Splitkit buckets users locally using a MurmurHash3 hash of `userId:experimentKey
 
 - **Deterministic** — pure hash-based bucketing, no randomness, no persisted assignment state.
 - **Offline-first** — assignments resolve synchronously at render time. Works on a plane.
-- **Zero runtime dependencies** — the whole engine is a hash function and a weighted range check.
+- **Zero third-party dependencies** — the whole engine is a hash function and a weighted range check, published separately as [`splitkit-core`](https://www.npmjs.com/package/splitkit-core).
+- **Runs on your backend too** — `splitkit-core` gives Node, Next.js and edge workers the same assignment the app shows.
 - **Native device IDs** — iOS `identifierForVendor`, Android `ANDROID_ID`, `localStorage` UUID on web.
 - **Typed payloads** — attach arbitrary config to each variant and get it back type-safe.
 - **Exposure tracking** — deduplicated callbacks you can wire to any analytics tool.
@@ -221,6 +222,18 @@ type ExposureCallback = (event: {
   timestamp: number;
 }) => void;
 ```
+
+### Use it on your backend
+
+The engine is published on its own as [`splitkit-core`](https://www.npmjs.com/package/splitkit-core), with no React and no native code. Call it from Node, Next.js, Cloudflare Workers, Deno or Bun to get the same variant the app shows, without asking the device:
+
+```ts
+import { evaluateExperiment } from 'splitkit-core';
+
+evaluateExperiment(EXPERIMENTS.onboarding_v2, { id: 'user-123' }).variant; // same as on device
+```
+
+Everything above (`evaluateExperiment`, `getBucketScore`, `murmur3_32` and the types) is re-exported from `expo-splitkit`, so app code doesn't change. See [Use on your backend](https://swapnil20711.github.io/expo-splitkit/guide/backend).
 
 ---
 

@@ -17,3 +17,6 @@ __tests__
 # IDE caches live in nested .idea dirs, which the top-level /.*/ rule misses.
 .idea/
 /android/local.properties
+
+# Workspace packages publish themselves.
+/packages/

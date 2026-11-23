@@ -37,6 +37,7 @@ export default defineConfig({
           { text: 'How bucketing works', link: '/guide/how-bucketing-works' },
           { text: 'Feature flags', link: '/guide/feature-flags' },
           { text: 'Exposure tracking', link: '/guide/exposure-tracking' },
+          { text: 'Use on your backend', link: '/guide/backend' },
           { text: 'Why SplitKit?', link: '/guide/why-splitkit' },
         ],
       },
